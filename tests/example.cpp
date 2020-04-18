@@ -1,6 +1,7 @@
-#include "gtest/gtest.h"
-
 #include <iostream>
+
+#include "gtest/gtest.h"
+#include "lock/safe.hpp"
 
 class LockTest : public ::testing::Test
 {
@@ -14,5 +15,5 @@ class LockTest : public ::testing::Test
 
 TEST_F(LockTest, GTestSetUpSuccess)
 {
-    std::cout << "TESTING!!!\n";
+    ASSERT_TRUE(lock::example());
 }

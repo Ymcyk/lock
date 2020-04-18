@@ -6,7 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Threads REQUIRED)
 
-set(SOURCES
+set(LOCK_LIB_SOURCES
+    src/safe.cpp)
+
+set(LOCK_CLI_SOURCES
     src/main.cpp)
 
 set(TEST_SOURCES
@@ -44,15 +47,28 @@ set_target_properties(gtest_main PROPERTIES
     IMPORTED_LOCATION ${GTEST_LIBMAIN_PATH}
 )
 
-add_executable(lock ${SOURCES})
+add_library(lock STATIC ${LOCK_LIB_SOURCES})
+
+target_include_directories(lock 
+    PUBLIC 
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE 
+        ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+add_executable(lock-cli ${LOCK_CLI_SOURCES})
+
+set_target_properties(lock-cli
+    PROPERTIES OUTPUT_NAME lock)
+
 add_executable(test_lock ${TEST_SOURCES})
 
 add_dependencies(test_lock googletest)
 add_dependencies(gtest googletest)
 add_dependencies(gtest_main googletest)
 
-target_include_directories(test_lock PUBLIC ${GTEST_INCLUDE_DIR})
-target_link_libraries(test_lock gtest gtest_main Threads::Threads)
+target_include_directories(test_lock PRIVATE ${GTEST_INCLUDE_DIR})
+target_link_libraries(test_lock lock gtest gtest_main Threads::Threads)
+target_link_libraries(lock-cli PRIVATE lock)
 
 enable_testing()
 add_test(NAME test_lock COMMAND test_lock)
