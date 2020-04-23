@@ -10,18 +10,25 @@ set(LOCK_LIB_SOURCES
     src/safe.cpp)
 
 set(LOCK_CLI_SOURCES
-    src/main.cpp)
+    src/main.cpp
+    src/app.cpp)
 
 set(TEST_SOURCES
     tests/example.cpp)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(GTEST_SUFFIX "d")
+else()
+    set(GTEST_SUFFIX "")
+endif()
 
 include(ExternalProject)
 
 set(GTEST_ROOT gtest)
 set(GTEST_LIB_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/${GTEST_ROOT}/src/googletest-build/lib/${CMAKE_FIND_LIBRARY_PREFIXES})
 
-set(GTEST_LIB_PATH ${GTEST_LIB_PREFIX}gtest.a)
-set(GTEST_LIBMAIN_PATH ${GTEST_LIB_PREFIX}gtest_main.a)
+set(GTEST_LIB_PATH ${GTEST_LIB_PREFIX}gtest${GTEST_SUFFIX}.a)
+set(GTEST_LIBMAIN_PATH ${GTEST_LIB_PREFIX}gtest_main${GTEST_SUFFIX}.a)
 
 ExternalProject_Add(
     googletest

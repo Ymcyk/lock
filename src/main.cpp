@@ -1,10 +1,8 @@
 #include <iostream>
-#include "lock/safe.hpp"
+#include "app.hpp"
 
-int main()
+int main(int argc, char **argv)
 {
-    if (lock::example())
-    {
-        std::cout << "example is true\n";
-    }
+    lock::App app{};
+    return app.parse(argc, argv);
 }
