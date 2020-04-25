@@ -1,0 +1,4 @@
+namespace lock
+{
+bool example();
+}
