@@ -10,10 +10,6 @@ namespace lock
 struct LsCommand::Pimpl
 {
     void parseComplete();
-
-    std::string key;
-    std::optional<std::string> login;
-    std::optional<std::string> password;
 };
 
 LsCommand::LsCommand()
