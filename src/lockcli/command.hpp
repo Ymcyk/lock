@@ -1,5 +1,4 @@
-#ifndef COMMAND_HPP
-#define COMMAND_HPP
+#pragma once
 
 #include <string_view>
 
@@ -21,5 +20,3 @@ public:
 };
 
 }
-
-#endif

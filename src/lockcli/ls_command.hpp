@@ -1,5 +1,4 @@
-#ifndef ADD_COMMAND_HPP
-#define ADD_COMMAND_HPP
+#pragma once
 
 #include <memory>
 
@@ -22,5 +21,3 @@ private:
 };
 
 }
-
-#endif

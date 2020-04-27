@@ -1,5 +1,4 @@
-#ifndef APP_HPP
-#define APP_HPP
+#pragma once
 
 #include <memory>
 
@@ -18,5 +17,3 @@ private:
     std::unique_ptr<Impl> _impl;
 };
 }
-
-#endif
