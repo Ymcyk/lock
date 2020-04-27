@@ -1,5 +1,7 @@
 #include "app.hpp"
 #include "3rdparty/CLI11.hpp"
+#include "command_factory.hpp"
+#include <vector>
 
 namespace lock
 {
@@ -7,13 +9,9 @@ struct App::Impl
 {
     Impl();
 
-    void setupCommands();
-    void parse(int argc, char **argv);
+    void addCommands();
 
-    void addCommand();
-    void lsCommand();
-    void rmCommand();
-
+    std::vector<Command_up> commands;
     CLI::App app{};
 };
 
@@ -23,45 +21,29 @@ App::Impl::Impl()
         require_subcommand(0, 1);
 }
 
-void App::Impl::setupCommands()
-{
-    addCommand();
-    lsCommand();
-    rmCommand();
-}
-
-void App::Impl::addCommand()
-{
-    app.add_subcommand("add", "Add a credential");
-}
-
-void App::Impl::lsCommand()
-{
-    app.add_subcommand("ls", "List all credentials");
-}
-
-void App::Impl::rmCommand()
-{
-    app.add_subcommand("rm", "Remove a credential");
-}
-
 App::App() 
-    : impl{std::make_unique<Impl>()}
+    : _impl{std::make_unique<Impl>()}
 { }
 
 App::~App() = default;
 
 int App::parse(int argc, char **argv)
 {
-    impl->setupCommands();
+    _impl->addCommands();
 
-    CLI11_PARSE(impl->app, argc, argv);
-
-    for (const auto &sub : impl->app.get_subcommands())
-    {
-        std::cout << sub->get_name() << '\n';
-    }
+    CLI11_PARSE(_impl->app, argc, argv);
 
     return EXIT_SUCCESS;
+}
+
+void App::Impl::addCommands()
+{
+    commands.push_back(createCommand<CommandType::Add>());
+    commands.push_back(createCommand<CommandType::Ls>());
+
+    for (auto &elem : commands)
+    {
+        elem->setup(app);
+    }
 }
 }

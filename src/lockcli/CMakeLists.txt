@@ -1,5 +1,7 @@
 set(SRC
-    app.cpp)
+    app.cpp
+    add_command.cpp
+    ls_command)
 
 add_library(liblockcli ${SRC})
 
