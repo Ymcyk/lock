@@ -38,6 +38,7 @@ void App::Impl::setup()
 {
     addCommand<CommandType::Add>();
     addCommand<CommandType::Ls>();
+    addCommand<CommandType::Rm>();
 }
 
 App::App() 

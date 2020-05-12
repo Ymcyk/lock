@@ -9,6 +9,7 @@ enum class CommandType
 {
     Add,
     Ls,
+    Rm,
 };
 
 using Command_up = std::unique_ptr<Command>;

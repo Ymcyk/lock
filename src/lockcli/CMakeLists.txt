@@ -4,7 +4,8 @@ set(SRC
     src/exception.cpp
     src/commands/parser.cpp
     src/commands/add_command.cpp
-    src/commands/ls_command.cpp)
+    src/commands/ls_command.cpp
+    src/commands/rm_command.cpp)
 
 add_library(liblockcli ${SRC})
 
