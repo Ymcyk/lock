@@ -1,7 +1,10 @@
 #include "app.hpp"
-#include "3rdparty/CLI11.hpp"
-#include "command_factory.hpp"
-#include <vector>
+
+#include <iostream>
+
+#include "exception.hpp"
+#include "commands/parser.hpp"
+#include "commands/command_factory.hpp"
 
 namespace lock
 {
@@ -12,13 +15,13 @@ struct App::Impl
     void addCommands();
 
     std::vector<Command_up> commands;
-    CLI::App app{};
+    Parser app;
 };
 
 App::Impl::Impl()
+    : app{"lock"}
 {
-    app.name("lock")->
-        require_subcommand(0, 1);
+    app.require_subcommand(0, 1);
 }
 
 App::App() 
@@ -31,7 +34,19 @@ int App::parse(int argc, char **argv)
 {
     _impl->addCommands();
 
-    CLI11_PARSE(_impl->app, argc, argv);
+    try
+    {
+        _impl->app.parse(argc, argv);
+    }
+    catch(const ParseException &e)
+    {
+        return e.get_exit_code();
+    }
+    catch(const Exception &e)
+    {
+        std::cerr << e.what() << std::endl;
+        return e.get_exit_code();
+    }
 
     return EXIT_SUCCESS;
 }

@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "command.hpp"
+#include "commands/command.hpp"
 
 namespace lock
 {
@@ -13,7 +13,7 @@ public:
     LsCommand();
     virtual ~LsCommand();
 
-    virtual void setup(CLI::App &app) override;
+    virtual void setup(Parser &app) override;
 
 private:
     struct Pimpl;

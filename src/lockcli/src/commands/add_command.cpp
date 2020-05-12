@@ -1,8 +1,11 @@
-#include "add_command.hpp"
+#include "commands/add_command.hpp"
+
 #include <string>
 #include <optional>
-#include "3rdparty/CLI11.hpp"
-#include "command_factory.hpp"
+#include <iostream>
+
+#include "commands/parser.hpp"
+#include "commands/command_factory.hpp"
 
 namespace lock
 {
@@ -27,15 +30,15 @@ AddCommand::~AddCommand()
     
 }
 
-void lock::AddCommand::setup(CLI::App &app)
+void lock::AddCommand::setup(Parser &app)
 {
     auto command = app.add_subcommand("add", "Add a credential");
 
-    command->add_option("key", "Credential identifier")->required();
-    command->add_option_function<std::string>("login", 
+    command.add_option("key", "Credential identifier").required();
+    command.add_option_function("login", 
         [this](const std::string &arg){ _pimpl->login = arg; }, "New credential login");
 
-    command->parse_complete_callback([this]{ this->_pimpl->parseComplete(); });
+    command.parse_complete_callback([this]{ this->_pimpl->parseComplete(); });
 }
 
 void AddCommand::Pimpl::parseComplete()

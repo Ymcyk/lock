@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "command.hpp"
+#include "commands/command.hpp"
 
 namespace lock
 {

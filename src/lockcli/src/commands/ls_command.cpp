@@ -1,8 +1,11 @@
-#include "ls_command.hpp"
+#include "commands/ls_command.hpp"
+
 #include <string>
 #include <optional>
-#include "3rdparty/CLI11.hpp"
-#include "command_factory.hpp"
+#include <iostream>
+
+#include "commands/parser.hpp"
+#include "commands/command_factory.hpp"
 
 namespace lock
 {
@@ -23,11 +26,11 @@ LsCommand::~LsCommand()
     
 }
 
-void lock::LsCommand::setup(CLI::App &app)
+void lock::LsCommand::setup(Parser &app)
 {
     auto command = app.add_subcommand("ls", "List all credentials");
 
-    command->parse_complete_callback([this]{ this->_pimpl->parseComplete(); });
+    command.parse_complete_callback([this]{ this->_pimpl->parseComplete(); });
 }
 
 void LsCommand::Pimpl::parseComplete()

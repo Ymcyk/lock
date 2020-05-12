@@ -1,13 +1,18 @@
+project(liblock)
 set(SRC
-    example.cpp)
+    src/exception.cpp)
 
-add_library(liblock ${SRC})
+set(HDRS
+    include/lock/exception.hpp)
+
+add_library(liblock STATIC ${SRC} ${HDRS})
 
 set_target_properties(liblock 
     PROPERTIES
         PREFIX "")
 
 target_include_directories(liblock
-    INTERFACE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
-
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>)
