@@ -96,6 +96,22 @@ Parser Parser::add_subcommand(std::string subcommand_name, std::string subcomman
     return Parser{std::move(impl)};
 }
 
+Option Parser::add_flag(std::string name, std::string description)
+{
+    auto option = _impl->app->add_flag(std::move(name), description);
+    auto impl = std::make_unique<Option::Impl>(option);
+
+    return Option{std::move(impl)};
+}
+
+Option Parser::add_flag_callback(std::string name, Parser::FlagCallback func, std::string description)
+{
+    auto option = _impl->app->add_flag_callback(std::move(name), func, std::move(description));
+    auto impl = std::make_unique<Option::Impl>(option);
+    
+    return Option{std::move(impl)};
+}
+
 Option Parser::add_option(std::string name, std::string description)
 {
     auto option = _impl->app->add_option(std::move(name), description);

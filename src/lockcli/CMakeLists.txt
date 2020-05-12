@@ -14,10 +14,14 @@ set_target_properties(liblockcli
     PROPERTIES
         PREFIX "")
 
+message("Source dir: ${liblock_SOURCE_DIR}")
+message("Binary dir: ${liblock_BINARY_DIR}")
+
 target_include_directories(liblockcli
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         $<BUILD_INTERFACE:${liblock_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${liblock_BINARY_DIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/3rdparty>)
 
 add_executable(lock src/main.cpp)

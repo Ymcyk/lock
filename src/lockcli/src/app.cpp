@@ -5,6 +5,7 @@
 #include "exception.hpp"
 #include "commands/parser.hpp"
 #include "commands/command_factory.hpp"
+#include "lock/version.hpp"
 
 namespace lock
 {
@@ -19,6 +20,7 @@ struct App::Impl
     {
         createCommand<type>()->setup(app);
     }
+    void addVersion();
 
     Parser app;
 };
@@ -34,8 +36,15 @@ void App::Impl::parse(int argc, char **argv)
     app.parse(argc, argv);
 }
 
+void App::Impl::addVersion()
+{
+    app.add_flag_callback("-v,--version", [](){ std::cout << Version::getString() << '\n'; }, "Show version");
+}
+
 void App::Impl::setup()
 {
+    addVersion();
+
     addCommand<CommandType::Add>();
     addCommand<CommandType::Ls>();
     addCommand<CommandType::Rm>();
