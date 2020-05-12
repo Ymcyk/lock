@@ -14,9 +14,6 @@ set_target_properties(liblockcli
     PROPERTIES
         PREFIX "")
 
-message("Source dir: ${liblock_SOURCE_DIR}")
-message("Binary dir: ${liblock_BINARY_DIR}")
-
 target_include_directories(liblockcli
     PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
