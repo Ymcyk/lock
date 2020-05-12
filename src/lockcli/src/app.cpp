@@ -12,9 +12,14 @@ struct App::Impl
 {
     Impl();
 
-    void addCommands();
+    void setup();
+    void parse(int argc, char **argv);
+    template<CommandType type>
+    void addCommand()
+    {
+        createCommand<type>()->setup(app);
+    }
 
-    std::vector<Command_up> commands;
     Parser app;
 };
 
@@ -22,6 +27,17 @@ App::Impl::Impl()
     : app{"lock"}
 {
     app.require_subcommand(0, 1);
+}
+
+void App::Impl::parse(int argc, char **argv)
+{
+    app.parse(argc, argv);
+}
+
+void App::Impl::setup()
+{
+    addCommand<CommandType::Add>();
+    addCommand<CommandType::Ls>();
 }
 
 App::App() 
@@ -32,11 +48,11 @@ App::~App() = default;
 
 int App::parse(int argc, char **argv)
 {
-    _impl->addCommands();
+    _impl->setup();
 
     try
     {
-        _impl->app.parse(argc, argv);
+        _impl->parse(argc, argv);
     }
     catch(const ParseException &e)
     {
@@ -51,14 +67,4 @@ int App::parse(int argc, char **argv)
     return EXIT_SUCCESS;
 }
 
-void App::Impl::addCommands()
-{
-    commands.push_back(createCommand<CommandType::Add>());
-    commands.push_back(createCommand<CommandType::Ls>());
-
-    for (auto &elem : commands)
-    {
-        elem->setup(app);
-    }
-}
 }
