@@ -1,7 +1,6 @@
 #include "commands/ls_command.hpp"
 
-#include <string>
-#include <optional>
+#include <memory>
 #include <iostream>
 
 #include "commands/parser.hpp"
@@ -10,30 +9,18 @@
 namespace lock
 {
 
-struct LsCommand::Pimpl
-{
-    void parseComplete();
-};
+LsCommand::LsCommand() = default;
 
-LsCommand::LsCommand()
-    : _pimpl{std::make_unique<Pimpl>()}
-{
-
-}
-
-LsCommand::~LsCommand()
-{
-    
-}
+LsCommand::~LsCommand() = default;
 
 void lock::LsCommand::setup(Parser &app)
 {
     auto command = app.add_subcommand("ls", "List all credentials");
 
-    command.parse_complete_callback([this]{ this->_pimpl->parseComplete(); });
+    command.parse_complete_callback([this]{ parseComplete(); });
 }
 
-void LsCommand::Pimpl::parseComplete()
+void LsCommand::parseComplete()
 {
     std::cout << "ls completed\n";
 }

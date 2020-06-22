@@ -1,6 +1,7 @@
 #pragma once
 
-#include <memory>
+#include <string>
+#include <optional>
 
 #include "commands/command.hpp"
 
@@ -16,8 +17,11 @@ public:
     virtual void setup(Parser &app) override;
 
 private:
-    struct Pimpl;
-    std::unique_ptr<Pimpl> _pimpl;
+    void parseComplete();
+
+    std::string _key;
+    std::optional<std::string> _login;
+    std::optional<std::string> _password;
 };
 
 }

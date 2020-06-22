@@ -1,7 +1,6 @@
 #include "commands/add_command.hpp"
 
-#include <string>
-#include <optional>
+#include <memory>
 #include <iostream>
 
 #include "commands/parser.hpp"
@@ -10,25 +9,9 @@
 namespace lock
 {
 
-struct AddCommand::Pimpl
-{
-    void parseComplete();
+AddCommand::AddCommand() = default;
 
-    std::string key;
-    std::optional<std::string> login;
-    std::optional<std::string> password;
-};
-
-AddCommand::AddCommand()
-    : _pimpl{std::make_unique<Pimpl>()}
-{
-
-}
-
-AddCommand::~AddCommand()
-{
-    
-}
+AddCommand::~AddCommand() = default;
 
 void lock::AddCommand::setup(Parser &app)
 {
@@ -36,14 +19,14 @@ void lock::AddCommand::setup(Parser &app)
 
     command.add_option("key", "Credential identifier").required();
     command.add_option_function("login", 
-        [this](const std::string &arg){ _pimpl->login = arg; }, "New credential login");
+        [this](const std::string &arg){ _login = arg; }, "New credential login");
 
-    command.parse_complete_callback([this]{ this->_pimpl->parseComplete(); });
+    command.parse_complete_callback([this]{ parseComplete(); });
 }
 
-void AddCommand::Pimpl::parseComplete()
+void AddCommand::parseComplete()
 {
-    if (login)
+    if (_login)
     {
         std::cout << "login passed\n";
     }

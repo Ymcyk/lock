@@ -1,7 +1,6 @@
 #include "commands/cp_command.hpp"
 
-#include <string>
-#include <optional>
+#include <memory>
 #include <iostream>
 
 #include "commands/parser.hpp"
@@ -10,30 +9,18 @@
 namespace lock
 {
 
-struct CpCommand::Pimpl
-{
-    void parseComplete();
-};
+CpCommand::CpCommand() = default;
 
-CpCommand::CpCommand()
-    : _pimpl{std::make_unique<Pimpl>()}
-{
-
-}
-
-CpCommand::~CpCommand()
-{
-    
-}
+CpCommand::~CpCommand() = default;
 
 void lock::CpCommand::setup(Parser &app)
 {
     auto command = app.add_subcommand("cp", "Copy a credential to the clipboard");
 
-    command.parse_complete_callback([this]{ this->_pimpl->parseComplete(); });
+    command.parse_complete_callback([this]{ parseComplete(); });
 }
 
-void CpCommand::Pimpl::parseComplete()
+void CpCommand::parseComplete()
 {
     std::cout << "cp completed\n";
 }
