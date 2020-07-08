@@ -31,10 +31,13 @@ public:
 
     using OptionCallback = std::function<void(const std::string &)>;
     using FlagCallback = std::function<void(void)>;
+    using CommandHandlerCallback = std::function<void()>;
 
     void parse(int argc, const char *const *argv);
+    void set_command_handler(CommandHandlerCallback command_handler);
     Parser& require_subcommand(std::size_t min, std::size_t max);
     Parser add_subcommand(std::string subcommand_name, std::string subcommand_description);
+    Parser& add_subcommand(Parser &subcommand);
     Option add_flag(std::string name, std::string description);
     Option add_flag_callback(std::string name, FlagCallback function, std::string description = "");
     Option add_option(std::string name, std::string description);

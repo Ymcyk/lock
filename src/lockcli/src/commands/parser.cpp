@@ -15,9 +15,10 @@ struct Parser::Impl
     Impl(std::string name, std::string description);
     explicit Impl(CLI::App_p app);
 
-    // void addCommands();
-    void show_help_if_no_option();
+    void show_help_if_no_arguments();
+    void setup_after_parse_callback();
 
+    CommandHandlerCallback command_handler{};
     CLI::App_p app{};
 };
 
@@ -33,15 +34,24 @@ Parser::Impl::Impl(CLI::App_p app)
 
 }
 
-void Parser::Impl::show_help_if_no_option()
+void Parser::Impl::show_help_if_no_arguments()
 {
-    auto throw_help_if_no_option = [this]{
-        if (app->count_all() <= 1)
+    if (app->count_all() <= 1)
+    {
+        throw CLI::CallForHelp{};
+    }
+}
+
+void Parser::Impl::setup_after_parse_callback()
+{
+    auto parser_callback = [this]{
+        show_help_if_no_arguments();
+        if (command_handler)
         {
-            throw CLI::CallForHelp{};
+            command_handler();
         }
     };
-    app->callback(throw_help_if_no_option);
+    app->callback(parser_callback);
 }
 
 // Option Impl methods
@@ -64,13 +74,13 @@ Option::Impl::Impl(CLI::Option *option)
 Parser::Parser(std::string name, std::string description)
     : _impl{std::make_unique<Impl>(std::move(name), std::move(description))}
 {
-    _impl->show_help_if_no_option();
+    _impl->setup_after_parse_callback();
 }
 
 Parser::Parser(Impl_p impl)
     : _impl{std::move(impl)}
 {
-    _impl->show_help_if_no_option();
+    _impl->setup_after_parse_callback();
 }
 
 Parser::~Parser()
@@ -91,6 +101,11 @@ void Parser::parse(int argc, const char *const *argv)
     }
 }
 
+void Parser::set_command_handler(CommandHandlerCallback command_handler)
+{
+    _impl->command_handler = command_handler;
+}
+
 Parser& Parser::require_subcommand(std::size_t min, std::size_t max)
 {
     _impl->app->require_subcommand(min, max);
@@ -106,6 +121,12 @@ Parser Parser::add_subcommand(std::string subcommand_name, std::string subcomman
     _impl->app->add_subcommand(sub);
 
     return Parser{std::move(impl)};
+}
+
+Parser& Parser::add_subcommand(Parser &subcommand)
+{
+    _impl->app->add_subcommand(subcommand._impl->app);
+    return subcommand;
 }
 
 Option Parser::add_flag(std::string name, std::string description)

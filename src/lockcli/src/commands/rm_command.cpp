@@ -9,26 +9,28 @@
 namespace lock
 {
 
-RmCommand::RmCommand() = default;
+RmCommand::RmCommand(Parser &parent)
+    : Command{"rm", "Remove a credential", parent}
+{
+    setup();
+}
 
 RmCommand::~RmCommand() = default;
 
-void lock::RmCommand::setup(Parser &app)
+void lock::RmCommand::setup()
 {
-    auto command = app.add_subcommand("rm", "Remove a credential");
 
-    command.parse_complete_callback([this]{ parse_complete(); });
 }
 
-void RmCommand::parse_complete()
+void RmCommand::handle_command()
 {
-    std::cout << "rm completed\n";
+    std::cout << "TODO: rm handler\n";
 }
 
 template<>
-Command_up create_command<CommandType::Rm>()
+Command_up create_command<CommandType::Rm>(Parser &parent)
 {
-    return std::make_unique<RmCommand>();
+    return std::make_unique<RmCommand>(parent);
 }
 
 }

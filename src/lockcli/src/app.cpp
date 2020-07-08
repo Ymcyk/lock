@@ -15,12 +15,12 @@ struct App::Impl
 
     void setup();
     void parse(int argc, char **argv);
-    void addVersion();
+    void add_version_flag();
 
     template<CommandType type> 
-    void addCommand()
+    void add_command()
     {
-        create_command<type>()->setup(app);
+        create_command<type>(app);
     }
 
     Parser app;
@@ -37,19 +37,19 @@ void App::Impl::parse(int argc, char **argv)
     app.parse(argc, argv);
 }
 
-void App::Impl::addVersion()
+void App::Impl::add_version_flag()
 {
     app.add_flag_callback("-v,--version", [](){ std::cout << Version::getString() << '\n'; }, "Show version");
 }
 
 void App::Impl::setup()
 {
-    addVersion();
+    add_version_flag();
 
-    addCommand<CommandType::Add>();
-    addCommand<CommandType::Ls>();
-    addCommand<CommandType::Rm>();
-    addCommand<CommandType::Cp>();
+    add_command<CommandType::Add>();
+    add_command<CommandType::Ls>();
+    add_command<CommandType::Rm>();
+    add_command<CommandType::Cp>();
 }
 
 App::App() 

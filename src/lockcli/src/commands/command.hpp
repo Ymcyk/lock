@@ -2,6 +2,8 @@
 
 #include <string_view>
 
+#include "commands/parser.hpp"
+
 namespace lock
 {
 
@@ -10,8 +12,14 @@ class Parser;
 class Command
 {
 public:
-    virtual ~Command() {}
-    virtual void setup(Parser &app) = 0;
+    Command(std::string name, std::string description, Parser &parent);
+    virtual ~Command() { }
+
+protected:
+    virtual void handle_command() = 0;
+
+protected:
+    Parser _parser;
 };
 
 }

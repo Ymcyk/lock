@@ -8,13 +8,12 @@ namespace lock
 class RmCommand : public Command
 {
 public:
-    RmCommand();
+    RmCommand(Parser &parent);
     virtual ~RmCommand();
 
-    virtual void setup(Parser &app) override;
-
 private:
-    void parse_complete();
+    virtual void setup();
+    virtual void handle_command() override;
 };
 
 }

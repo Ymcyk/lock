@@ -3,6 +3,7 @@ set(SRC
     src/app.cpp
     src/exception.cpp
     src/commands/parser.cpp
+    src/commands/command.cpp
     src/commands/add_command.cpp
     src/commands/ls_command.cpp
     src/commands/rm_command.cpp

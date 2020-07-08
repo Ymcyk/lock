@@ -11,14 +11,14 @@ namespace lock
 class AddCommand : public Command
 {
 public:
-    AddCommand();
+    AddCommand(Parser &parent);
     virtual ~AddCommand();
 
-    virtual void setup(Parser &app) override;
+private:
+    virtual void setup();
+    virtual void handle_command() override;
 
 private:
-    void parse_complete();
-
     std::string _key;
     std::optional<std::string> _login;
     std::optional<std::string> _password;

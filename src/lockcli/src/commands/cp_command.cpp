@@ -9,26 +9,28 @@
 namespace lock
 {
 
-CpCommand::CpCommand() = default;
+CpCommand::CpCommand(Parser &parent)
+    : Command{"cp", "Copy a credential to the clipboard", parent}
+{
+    setup();
+}
 
 CpCommand::~CpCommand() = default;
 
-void lock::CpCommand::setup(Parser &app)
+void lock::CpCommand::setup()
 {
-    auto command = app.add_subcommand("cp", "Copy a credential to the clipboard");
-
-    command.parse_complete_callback([this]{ parse_complete(); });
+    
 }
 
-void CpCommand::parse_complete()
+void CpCommand::handle_command()
 {
-    std::cout << "cp completed\n";
+    std::cout << "TODO: cp handler\n";
 }
 
 template<>
-Command_up create_command<CommandType::Cp>()
+Command_up create_command<CommandType::Cp>(Parser &parent)
 {
-    return std::make_unique<CpCommand>();
+    return std::make_unique<CpCommand>(parent);
 }
 
 }

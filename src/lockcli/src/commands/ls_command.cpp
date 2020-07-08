@@ -9,26 +9,28 @@
 namespace lock
 {
 
-LsCommand::LsCommand() = default;
+LsCommand::LsCommand(Parser &parent)
+    : Command{"ls", "List all credentials", parent}
+{
+    setup();
+}
 
 LsCommand::~LsCommand() = default;
 
-void lock::LsCommand::setup(Parser &app)
+void lock::LsCommand::setup()
 {
-    auto command = app.add_subcommand("ls", "List all credentials");
 
-    command.parse_complete_callback([this]{ parse_complete(); });
 }
 
-void LsCommand::parse_complete()
+void LsCommand::handle_command()
 {
-    std::cout << "ls completed\n";
+    std::cout << "TODO: ls handler\n";
 }
 
 template<>
-Command_up create_command<CommandType::Ls>()
+Command_up create_command<CommandType::Ls>(Parser &parent)
 {
-    return std::make_unique<LsCommand>();
+    return std::make_unique<LsCommand>(parent);
 }
 
 }

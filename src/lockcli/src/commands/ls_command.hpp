@@ -8,13 +8,12 @@ namespace lock
 class LsCommand : public Command
 {
 public:
-    LsCommand();
+    LsCommand(Parser &parent);
     virtual ~LsCommand();
 
-    virtual void setup(Parser &app) override;
-
 private:
-    void parse_complete();
+    virtual void setup();
+    virtual void handle_command() override;
 };
 
 }

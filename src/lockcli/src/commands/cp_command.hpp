@@ -8,13 +8,12 @@ namespace lock
 class CpCommand : public Command
 {
 public:
-    CpCommand();
+    CpCommand(Parser &parent);
     virtual ~CpCommand();
 
-    virtual void setup(Parser &app) override;
-
 private:
-    void parse_complete();
+    virtual void setup();
+    virtual void handle_command() override;
 };
 
 }
