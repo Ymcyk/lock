@@ -17,7 +17,7 @@ void lock::AddCommand::setup(Parser &app)
 {
     auto command = app.add_subcommand("add", "Add a credential");
 
-    command.add_option("key", "Credential identifier").required();
+    command.add_option_function("key", [this](const std::string &arg){ _key = arg; }, "Credential identifier");
     command.add_option_function("login", 
         [this](const std::string &arg){ _login = arg; }, "New credential login");
 
@@ -26,17 +26,8 @@ void lock::AddCommand::setup(Parser &app)
 
 void AddCommand::parseComplete()
 {
-    if (_login)
-    {
-        std::cout << "login passed\n";
-    }
-    else
-    {
-        std::cout << "TODO: get login from stdin\n";
-    }
-    
-
-    std::cout << "add completed\n";
+    std::cout << "Key: " << _key << '\n';
+    std::cout << "Login: " << _login.value_or("-- no login passed --") << '\n';
 }
 
 template<>

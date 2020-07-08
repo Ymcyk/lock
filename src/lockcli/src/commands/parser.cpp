@@ -15,7 +15,8 @@ struct Parser::Impl
     Impl(std::string name, std::string description);
     explicit Impl(CLI::App_p app);
 
-    void addCommands();
+    // void addCommands();
+    void show_help_if_no_option();
 
     CLI::App_p app{};
 };
@@ -30,6 +31,17 @@ Parser::Impl::Impl(CLI::App_p app)
     : app{app}
 {
 
+}
+
+void Parser::Impl::show_help_if_no_option()
+{
+    auto throw_help_if_no_option = [this]{
+        if (app->count_all() <= 1)
+        {
+            throw CLI::CallForHelp{};
+        }
+    };
+    app->callback(throw_help_if_no_option);
 }
 
 // Option Impl methods
@@ -52,13 +64,13 @@ Option::Impl::Impl(CLI::Option *option)
 Parser::Parser(std::string name, std::string description)
     : _impl{std::make_unique<Impl>(std::move(name), std::move(description))}
 {
-
+    _impl->show_help_if_no_option();
 }
 
 Parser::Parser(Impl_p impl)
     : _impl{std::move(impl)}
 {
-
+    _impl->show_help_if_no_option();
 }
 
 Parser::~Parser()
