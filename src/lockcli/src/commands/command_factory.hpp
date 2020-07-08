@@ -16,5 +16,5 @@ enum class CommandType
 using Command_up = std::unique_ptr<Command>;
 
 template<CommandType type>
-Command_up createCommand();
+Command_up create_command();
 }

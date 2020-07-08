@@ -17,16 +17,16 @@ void lock::RmCommand::setup(Parser &app)
 {
     auto command = app.add_subcommand("rm", "Remove a credential");
 
-    command.parse_complete_callback([this]{ parseComplete(); });
+    command.parse_complete_callback([this]{ parse_complete(); });
 }
 
-void RmCommand::parseComplete()
+void RmCommand::parse_complete()
 {
     std::cout << "rm completed\n";
 }
 
 template<>
-Command_up createCommand<CommandType::Rm>()
+Command_up create_command<CommandType::Rm>()
 {
     return std::make_unique<RmCommand>();
 }

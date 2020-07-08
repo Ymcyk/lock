@@ -17,7 +17,7 @@ public:
     virtual void setup(Parser &app) override;
 
 private:
-    void parseComplete();
+    void parse_complete();
 
     std::string _key;
     std::optional<std::string> _login;

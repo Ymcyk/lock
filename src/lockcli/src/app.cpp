@@ -15,12 +15,13 @@ struct App::Impl
 
     void setup();
     void parse(int argc, char **argv);
-    template<CommandType type>
+    void addVersion();
+
+    template<CommandType type> 
     void addCommand()
     {
-        createCommand<type>()->setup(app);
+        create_command<type>()->setup(app);
     }
-    void addVersion();
 
     Parser app;
 };
