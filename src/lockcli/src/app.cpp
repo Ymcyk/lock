@@ -1,6 +1,7 @@
 #include "app.hpp"
 
 #include <iostream>
+#include <vector>
 
 #include "exception.hpp"
 #include "commands/parser.hpp"
@@ -20,9 +21,10 @@ struct App::Impl
     template<CommandType type> 
     void add_command()
     {
-        create_command<type>(app);
+        commands.push_back(create_command<type>(app));
     }
 
+    std::vector<lock::Command_up> commands;
     Parser app;
 };
 

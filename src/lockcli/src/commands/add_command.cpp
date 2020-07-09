@@ -11,7 +11,9 @@ namespace lock
 
 AddCommand::AddCommand(Parser &parent) 
     : Command{"add", "Add a credential", parent}
-{ }
+{ 
+    setup();
+}
 
 AddCommand::~AddCommand() = default;
 
