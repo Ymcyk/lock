@@ -1,10 +1,10 @@
 #include "commands/rm_command.hpp"
 
-#include <memory>
 #include <iostream>
+#include <memory>
 
-#include "commands/parser.hpp"
 #include "commands/command_factory.hpp"
+#include "commands/parser.hpp"
 
 namespace lock
 {
@@ -17,20 +17,14 @@ RmCommand::RmCommand(Parser &parent)
 
 RmCommand::~RmCommand() = default;
 
-void lock::RmCommand::setup()
-{
+void lock::RmCommand::setup() {}
 
-}
+void RmCommand::handle_command() { std::cout << "TODO: rm handler\n"; }
 
-void RmCommand::handle_command()
-{
-    std::cout << "TODO: rm handler\n";
-}
-
-template<>
+template <>
 Command_up create_command<CommandType::Rm>(Parser &parent)
 {
     return std::make_unique<RmCommand>(parent);
 }
 
-}
+} // namespace lock

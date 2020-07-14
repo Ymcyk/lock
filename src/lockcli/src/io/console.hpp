@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <iostream>
+#include <string>
 
 namespace lock
 {
@@ -20,4 +20,4 @@ private:
     std::ostream &_out;
     std::istream &_in;
 };
-}
+} // namespace lock

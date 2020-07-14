@@ -17,6 +17,6 @@ enum class CommandType
 
 using Command_up = std::unique_ptr<Command>;
 
-template<CommandType type>
+template <CommandType type>
 Command_up create_command(Parser &parent);
-}
+} // namespace lock

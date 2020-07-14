@@ -11,10 +11,7 @@ struct Version
     inline static const unsigned int minor = ${PROJECT_VERSION_MINOR};
     inline static const unsigned int patch = ${PROJECT_VERSION_PATCH};
 
-    inline static std::string_view getString()
-    {
-        return "${PROJECT_VERSION}";
-    }
+    inline static std::string_view getString() { return "${PROJECT_VERSION}"; }
 };
 
-}
+} // namespace lock

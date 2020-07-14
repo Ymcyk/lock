@@ -1,8 +1,8 @@
 #pragma once
 
 #include <functional>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace lock
 {
@@ -10,7 +10,7 @@ namespace lock
 class Option
 {
 public:
-    Option& required(bool value = true);
+    Option &required(bool value = true);
     ~Option();
 
     friend class Parser;
@@ -35,14 +35,17 @@ public:
 
     void parse(int argc, const char *const *argv);
     void set_command_handler(CommandHandlerCallback command_handler);
-    Parser& require_subcommand(std::size_t min, std::size_t max);
-    Parser add_subcommand(std::string subcommand_name, std::string subcommand_description);
-    Parser& add_subcommand(Parser &subcommand);
+    Parser &require_subcommand(std::size_t min, std::size_t max);
+    Parser add_subcommand(std::string subcommand_name,
+                          std::string subcommand_description);
+    Parser &add_subcommand(Parser &subcommand);
     Option add_flag(std::string name, std::string description);
-    Option add_flag_callback(std::string name, FlagCallback function, std::string description = "");
+    Option add_flag_callback(std::string name, FlagCallback function,
+                             std::string description = "");
     Option add_option(std::string name, std::string description);
-    Option add_option_function(std::string name, const OptionCallback &func, std::string description);
-    Parser& parse_complete_callback(std::function<void ()> callback);
+    Option add_option_function(std::string name, const OptionCallback &func,
+                               std::string description);
+    Parser &parse_complete_callback(std::function<void()> callback);
 
 private:
     struct Impl;
@@ -52,4 +55,4 @@ private:
     Impl_p _impl;
 };
 
-}
+} // namespace lock

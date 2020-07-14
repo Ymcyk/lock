@@ -1,10 +1,10 @@
 #include "commands/ls_command.hpp"
 
-#include <memory>
 #include <iostream>
+#include <memory>
 
-#include "commands/parser.hpp"
 #include "commands/command_factory.hpp"
+#include "commands/parser.hpp"
 
 namespace lock
 {
@@ -17,20 +17,14 @@ LsCommand::LsCommand(Parser &parent)
 
 LsCommand::~LsCommand() = default;
 
-void lock::LsCommand::setup()
-{
+void lock::LsCommand::setup() {}
 
-}
+void LsCommand::handle_command() { std::cout << "TODO: ls handler\n"; }
 
-void LsCommand::handle_command()
-{
-    std::cout << "TODO: ls handler\n";
-}
-
-template<>
+template <>
 Command_up create_command<CommandType::Ls>(Parser &parent)
 {
     return std::make_unique<LsCommand>(parent);
 }
 
-}
+} // namespace lock

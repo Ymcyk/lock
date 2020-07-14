@@ -3,9 +3,9 @@
 #include <iostream>
 #include <vector>
 
-#include "exception.hpp"
-#include "commands/parser.hpp"
 #include "commands/command_factory.hpp"
+#include "commands/parser.hpp"
+#include "exception.hpp"
 #include "lock/version.hpp"
 
 namespace lock
@@ -18,7 +18,7 @@ struct App::Impl
     void parse(int argc, char **argv);
     void add_version_flag();
 
-    template<CommandType type> 
+    template <CommandType type>
     void add_command()
     {
         commands.push_back(create_command<type>(app));
@@ -28,20 +28,15 @@ struct App::Impl
     Parser app;
 };
 
-App::Impl::Impl()
-    : app{"lock"}
-{
-    app.require_subcommand(0, 1);
-}
+App::Impl::Impl() : app{"lock"} { app.require_subcommand(0, 1); }
 
-void App::Impl::parse(int argc, char **argv)
-{
-    app.parse(argc, argv);
-}
+void App::Impl::parse(int argc, char **argv) { app.parse(argc, argv); }
 
 void App::Impl::add_version_flag()
 {
-    app.add_flag_callback("-v,--version", [](){ std::cout << Version::getString() << '\n'; }, "Show version");
+    app.add_flag_callback(
+        "-v,--version", []() { std::cout << Version::getString() << '\n'; },
+        "Show version");
 }
 
 void App::Impl::setup()
@@ -54,9 +49,7 @@ void App::Impl::setup()
     add_command<CommandType::Cp>();
 }
 
-App::App() 
-    : _impl{std::make_unique<Impl>()}
-{ }
+App::App() : _impl{std::make_unique<Impl>()} {}
 
 App::~App() = default;
 
@@ -68,11 +61,11 @@ int App::parse(int argc, char **argv)
     {
         _impl->parse(argc, argv);
     }
-    catch(const ParseException &e)
+    catch (const ParseException &e)
     {
         return e.get_exit_code();
     }
-    catch(const Exception &e)
+    catch (const Exception &e)
     {
         std::cerr << e.what() << std::endl;
         return e.get_exit_code();
@@ -81,4 +74,4 @@ int App::parse(int argc, char **argv)
     return EXIT_SUCCESS;
 }
 
-}
+} // namespace lock

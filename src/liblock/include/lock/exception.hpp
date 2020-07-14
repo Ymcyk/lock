@@ -11,9 +11,11 @@ enum class ExitCodes
     Failure = 1
 };
 
-class Exception : public std::runtime_error {
+class Exception : public std::runtime_error
+{
 public:
-    Exception(std::string name, std::string msg, ExitCodes exit_code = ExitCodes::Failure);
+    Exception(std::string name, std::string msg,
+              ExitCodes exit_code = ExitCodes::Failure);
 
     int get_exit_code() const;
     std::string get_name() const;
@@ -23,4 +25,4 @@ private:
     std::string error_name{"Error"};
 };
 
-}
+} // namespace lock

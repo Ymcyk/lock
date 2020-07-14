@@ -16,4 +16,4 @@ private:
     virtual void handle_command() override;
 };
 
-}
+} // namespace lock

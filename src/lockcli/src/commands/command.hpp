@@ -13,7 +13,7 @@ class Command
 {
 public:
     Command(std::string name, std::string description, Parser &parent);
-    virtual ~Command() { }
+    virtual ~Command() {}
 
 protected:
     virtual void handle_command() = 0;
@@ -22,4 +22,4 @@ protected:
     Parser _parser;
 };
 
-}
+} // namespace lock

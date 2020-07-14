@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <optional>
+#include <string>
 
 #include "commands/command.hpp"
 #include "io/console.hpp"
@@ -27,4 +27,4 @@ private:
     std::optional<std::string> _password;
 };
 
-}
+} // namespace lock
