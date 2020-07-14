@@ -12,7 +12,7 @@ public:
     virtual ~LsCommand();
 
 private:
-    virtual void setup();
+    void setup();
     virtual void handle_command() override;
 };
 

@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "commands/command.hpp"
+#include "io/console.hpp"
 
 namespace lock
 {
@@ -11,14 +12,16 @@ namespace lock
 class AddCommand : public Command
 {
 public:
-    AddCommand(Parser &parent);
+    AddCommand(Parser &parent, Console console = {});
     virtual ~AddCommand();
 
 private:
-    virtual void setup();
+    void setup();
+    void get_user_input();
     virtual void handle_command() override;
 
 private:
+    Console _console;
     std::string _key;
     std::optional<std::string> _login;
     std::optional<std::string> _password;

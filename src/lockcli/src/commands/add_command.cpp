@@ -9,8 +9,9 @@
 namespace lock
 {
 
-AddCommand::AddCommand(Parser &parent) 
-    : Command{"add", "Add a credential", parent}
+AddCommand::AddCommand(Parser &parent, Console console) 
+    : Command{"add", "Add a credential", parent},
+      _console{std::move(console)}
 { 
     setup();
 }
@@ -27,11 +28,23 @@ void lock::AddCommand::setup()
                                 "New credential login");
 }
 
+void AddCommand::get_user_input()
+{
+    if (!_login)
+    {
+        _login = _console.get_login();
+    }
+
+    if (!_password)
+    {
+        _password = _console.get_password();
+    }
+}
+
 void AddCommand::handle_command()
 {
-    std::cout << "Key: " << _key << '\n';
-    std::cout << "Login: " << _login.value_or("-- no login passed --") << '\n';
-    std::cout << "TODO: add handler\n";
+    get_user_input();
+    std::cout << _key << '|' << _login.value() << '|' << _password.value() << '\n';
 }
 
 template<>

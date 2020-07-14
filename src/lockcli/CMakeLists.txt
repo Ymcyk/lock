@@ -7,7 +7,8 @@ set(SRC
     src/commands/add_command.cpp
     src/commands/ls_command.cpp
     src/commands/rm_command.cpp
-    src/commands/cp_command.cpp)
+    src/commands/cp_command.cpp
+    src/io/console.cpp)
 
 add_library(liblockcli ${SRC})
 
